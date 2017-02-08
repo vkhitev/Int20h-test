@@ -1,0 +1,15 @@
+{
+  "name": "int20h-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/vkhitev/Int20h-test.git",
+  "author": "Vlad Khitev <vkhitev@gmail.com> (https://vk.com/id18315550)",
+  "license": "MIT",
+  "dependencies": {
+    "forever": "^0.15.3",
+    "node-cron": "^1.1.3",
+    "ramda": "^0.23.0",
+    "ramda-fantasy": "^0.7.0",
+    "request": "^2.79.0"
+  }
+}
