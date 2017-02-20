@@ -49,6 +49,7 @@ exports.drawChannelSchedule = function drawChannelSchedule (data) {
 
   const channelName = data.channel
   const program = data.program
+  program.sort(cmpTime)
 
   ctx.font = '50px Sans'
   ctx.fillText(channelName, 160, 50)
