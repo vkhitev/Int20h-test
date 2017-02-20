@@ -66,9 +66,17 @@ const mergeProjectsWithChannels = (ids) => R.compose(
   propId
 )(ids)
 
-const getSchedule = R.composeK(
+const fetchSchedule = R.composeK(
   mergeProjectsWithChannels,
   selectChannelIds
 )
 
-module.exports = getSchedule
+const fetchChannelSchedule = (channel) =>
+  R.compose(
+    R.map(R.nth(0)),
+    R.map(R.filter(R.whereEq({ channel }))),
+    fetchSchedule
+  )()
+
+exports.fetchSchedule = fetchSchedule
+exports.fetchChannelSchedule = fetchChannelSchedule

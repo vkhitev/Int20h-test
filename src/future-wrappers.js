@@ -26,9 +26,9 @@ exports.futureAll = function futureAll (futures) {
   })
 }
 
-exports.getRequest = function getRequest (url) {
+exports.getRequest = function getRequest (url, options = {}) {
   return new Future((reject, resolve) => {
-    request.get(url, (err, res, body) => {
+    request.get(url, options, (err, res, body) => {
       if (err) {
         return reject(err)
       }

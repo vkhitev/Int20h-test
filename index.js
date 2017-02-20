@@ -1,23 +1,18 @@
-// const cron = require('node-cron')
+require('dotenv').config()
 
-// Runs every day at 00:00:00 AM.
-// cron.schedule('0 0 0 * * *', () => {
-//   console.log('hi')
-// })
+const fetchChannelSchedule = require('./src/scheduler').fetchChannelSchedule
+const drawChannelSchedule = require('./src/drawer').drawChannelSchedule
+const saveAsVkTitle = require('./src/vk-saver')
 
-const getSchedule = require('./scheduler')
-
-const path = require('path')
 const fs = require('fs')
+const path = require('path')
 
-const Canvas = require('canvas')
-const printSchedule = require('./drawer')
+const channelName = '1+1'
+const imgName = `schedule_${channelName}.png`
 
-getSchedule().fork(console.error, data => {
-  const canvas = new Canvas(1750, 2000)
-  printSchedule(canvas, data)
-
-  const out = fs.createWriteStream(path.join(__dirname, 'schedule.png'))
+fetchChannelSchedule(channelName).fork(console.error, data => {
+  const out = fs.createWriteStream(path.join(__dirname, imgName))
+  const canvas = drawChannelSchedule(data)
 
   canvas
     .pngStream()
@@ -25,6 +20,9 @@ getSchedule().fork(console.error, data => {
       out.write(chunk)
     })
     .on('end', function () {
-      console.log('saved png')
+      console.log('Saved png:', imgName)
+      saveAsVkTitle(process.env.ACCESS_TOKEN, process.env.GROUP_ID, imgName)
+        .catch(console.error)
     })
+    .on('error', console.error)
 })
